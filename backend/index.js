@@ -22,6 +22,7 @@ const todosSchema = new mongodb.Schema({
 });
 
 const todos = mongodb.model("todos", todosSchema);
+todos.insertMany([]);
 const result = todos.find({});
 // console.log(result)
 
@@ -48,4 +49,16 @@ app.get("/todos", (req, res) => {
     });
 });
 
+app.post("/add", (req, res) => {
+  console.log(req);
+  todos
+    .insertMany([req.body])
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      res.send({ error: err });
+    })
+    .finally(console.log("end request"));
+});
 app.listen(5000);
